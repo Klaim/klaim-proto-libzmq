@@ -1,0 +1,6 @@
+$out_root/
+{
+  include libzmq/
+}
+
+export $out_root/libzmq/$import.target

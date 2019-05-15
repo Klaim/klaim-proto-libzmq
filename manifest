@@ -1,0 +1,10 @@
+: 1
+name: libzmq
+version: 0.1.0-a.0.z
+summary: zmq library
+license: TODO
+url: https://example.org/libzmq
+email: jlamotte@softbankrobotics.com
+depends: * build2 >= 0.10.0
+depends: * bpkg >= 0.10.0
+#depends: libhello ^1.0.0
