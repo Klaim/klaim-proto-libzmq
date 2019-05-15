@@ -2,51 +2,39 @@ int_libs = # Interface dependencies.
 imp_libs = # Implementation dependencies.
 #import imp_libs += libhello%lib{hello}
 
-lib{zmq}: {hxx ixx txx cxx}{** -version} hxx{version} $imp_libs $int_libs
-
-# Include the generated version header into the distribution (so that we don't
-# pick up an installed one) and don't remove it when cleaning in src (so that
-# clean results in a state identical to distributed).
-#
-hxx{version}: in{version} $src_root/manifest
-hxx{version}:
-{
-  dist  = true
-  clean = ($src_root != $out_root)
-}
+lib{zmq}: origin/include/{*.h} origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
+lib{zmq}: platform/hxx{*} # THIS IS A MASSIVE HACK, see Readme
 
 # Build options.
 #
-cxx.poptions =+ "-I$out_root" "-I$src_root"
+cxx.poptions =+ "-I$out_root" "-I$src_base/origin/src/"
+cxx.poptions =+ "-I$src_base/platform" # THIS IS A MASSIVE HACK, see Readme
 
-obja{*}: cxx.poptions += -DLIBZMQ_STATIC_BUILD
-objs{*}: cxx.poptions += -DLIBZMQ_SHARED_BUILD
+if ($cxx.target.class == 'windows')
+{
+  cxx.libs += ws2_32.lib rpcrt4.lib iphlpapi.lib Advapi32.lib
+}
+
+obja{*}: cxx.poptions += -DZMQ_STATIC
+objs{*}: cxx.poptions += -DDLL_EXPORT
 
 # Export options.
 #
 lib{zmq}:
 {
-  cxx.export.poptions = "-I$out_root" "-I$src_root"
+  cxx.export.poptions = "-I$out_root" "-I$src_base/origin/include" "-I$src_base/origin/include"
   cxx.export.libs = $int_libs
 }
 
-liba{zmq}: cxx.export.poptions += -DLIBZMQ_STATIC
-libs{zmq}: cxx.export.poptions += -DLIBZMQ_SHARED
+liba{zmq}: cxx.export.poptions += -DZMQ_STATIC
+# libs{zmq}: cxx.export.poptions += -DDLL_EXPORT
 
-# For pre-releases use the complete version to make sure they cannot be used
-# in place of another pre-release or the final version. See the version module
-# for details on the version.* variable values.
-#
-if $version.pre_release
-  lib{zmq}: bin.lib.version = @"-$version.project_id"
-else
-  lib{zmq}: bin.lib.version = @"-$version.major.$version.minor"
-
+# Hacked by Klaim:
 # Install into the libzmq/ subdirectory of, say, /usr/include/
 # recreating subdirectories.
 #
-{hxx ixx txx}{*}:
+origin/include/{*.h}:
 {
-  install         = include/libzmq/
-  install.subdirs = true
+  install         = include/
+  install.subdirs = false
 }

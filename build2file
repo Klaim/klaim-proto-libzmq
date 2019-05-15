@@ -1,4 +1,4 @@
-./: {*/ -build2/} manifest
+./: {*/ -build2/ -tests/} manifest
 
 # Don't install tests.
 #
