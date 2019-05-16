@@ -33,10 +33,11 @@ liba{zmq}: cxx.export.poptions += -DZMQ_STATIC
 # Install into the libzmq/ subdirectory of, say, /usr/include/
 # recreating subdirectories.
 #
-origin/include/{*.h}:
+
+origin/src/{hxx ixx txx cxx}{**} : install = false
+platform/hxx{*} : install = false
+origin/include/file{*} :
 {
   install         = include/
   install.subdirs = false
 }
-
-origin/src/{hxx ixx txx cxx}{**} : install = false
