@@ -2,7 +2,8 @@ int_libs = # Interface dependencies.
 imp_libs = # Implementation dependencies.
 #import imp_libs += libhello%lib{hello}
 
-lib{zmq}: origin/include/hxx{*.h} origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
+lib{zmq}: origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
+lib{zmq}: origin/include/hxx{*.h} origin/src/hxx{*.h}   # Extra C headers
 lib{zmq}: platform/hxx{*} # THIS IS A MASSIVE HACK, see Readme
 
 # Build options.
