@@ -2,12 +2,12 @@ int_libs = # Interface dependencies.
 imp_libs = # Implementation dependencies.
 #import imp_libs += libhello%lib{hello}
 
-lib{zmq}: origin/include/{*.h} origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
+lib{zmq}: origin/include/hxx{*.h} origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
 lib{zmq}: platform/hxx{*} # THIS IS A MASSIVE HACK, see Readme
 
 # Build options.
 #
-cxx.poptions =+ "-I$out_root" "-I$src_base/origin/src/"
+cxx.poptions =+ "-I$out_root" "-I$src_base/origin/src/" "-$src_base/Iorigin/include/"
 cxx.poptions =+ "-I$src_base/platform" # THIS IS A MASSIVE HACK, see Readme
 
 if ($cxx.target.class == 'windows')
