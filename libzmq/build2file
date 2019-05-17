@@ -8,7 +8,7 @@ lib{zmq}: platform/hxx{*} # THIS IS A MASSIVE HACK, see Readme
 
 # Build options.
 #
-cxx.poptions =+ "-I$out_root" "-I$src_base/origin/src/" "-$src_base/Iorigin/include/"
+cxx.poptions =+ "-I$out_root" "-I$src_base/origin/src/" "-I$src_base/origin/include/"
 cxx.poptions =+ "-I$src_base/platform" # THIS IS A MASSIVE HACK, see Readme
 
 if ($cxx.target.class == 'windows')
