@@ -2,14 +2,20 @@ int_libs = # Interface dependencies.
 imp_libs = # Implementation dependencies.
 #import imp_libs += libhello%lib{hello}
 
-lib{zmq}: origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
+#lib{zmq}: {hxx ixx txx cxx}{**} $imp_libs $int_libs
+lib{zmq}: cxx{*} wtf/cxx{*}
 lib{zmq}: origin/include/hxx{*.h} origin/src/hxx{*.h}   # Extra C headers
-lib{zmq}: platform/hxx{platform} # THIS IS A MASSIVE HACK, see Readme
+lib{zmq}: hxx{platform}
+
+info "src_root: $src_root"
+info "src_base: $src_base"
+
+info "out_root: $out_root"
+info "out_base: $out_base"
 
 # Build options.
 #
-cxx.poptions =+ "-I$out_root" "-I$src_base/origin/src/" "-I$src_base/origin/include/"
-cxx.poptions =+ "-I$out_base/platform/" # THIS IS A MASSIVE HACK, see Readme
+cxx.poptions =+ "-I$out_root" "-I$out_base" "-I$src_base/origin/src/" "-I$src_base/origin/include/"
 
 if ($cxx.target.class == 'windows')
 {
@@ -42,17 +48,19 @@ origin/include/file{*} :
   install.subdirs = false
 }
 
+
 ##########
 # BIG TEMPORARY HACK, DON't DO THIS AT HOME
-platform/hxx{platform} : install = false
-if ($cxx.target.class == 'windows')
+hxx{platform}:
 {
-  info "PLATFORM WINDOWS HACK"
-  platform/hxx{platform} : platform/in{platform-win}
-}
-if ($cxx.target.class == 'linux')
-{
-  info "PLATFORM LINUX HACK"
-  platform/hxx{platform} : platform/in{platform-linux}
+  install = false
 }
 
+if ($cc.target.class == 'windows')
+{
+  hxx{platform}: platform/in{platform-win}
+}
+if ($cc.target.class == 'linux')
+{
+  hxx{platform}: platform/in{platform-linux}
+}
