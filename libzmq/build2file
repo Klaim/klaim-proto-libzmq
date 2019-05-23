@@ -4,12 +4,12 @@ imp_libs = # Implementation dependencies.
 
 lib{zmq}: origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
 lib{zmq}: origin/include/hxx{*.h} origin/src/hxx{*.h}   # Extra C headers
-lib{zmq}: platform/hxx{*} # THIS IS A MASSIVE HACK, see Readme
+lib{zmq}: platform/hxx{platform} # THIS IS A MASSIVE HACK, see Readme
 
 # Build options.
 #
 cxx.poptions =+ "-I$out_root" "-I$src_base/origin/src/" "-I$src_base/origin/include/"
-cxx.poptions =+ "-I$src_base/platform" # THIS IS A MASSIVE HACK, see Readme
+cxx.poptions =+ "-I$out_base/platform/" # THIS IS A MASSIVE HACK, see Readme
 
 if ($cxx.target.class == 'windows')
 {
@@ -23,7 +23,7 @@ objs{*}: cxx.poptions += -DDLL_EXPORT
 #
 lib{zmq}:
 {
-  cxx.export.poptions = "-I$out_root" "-I$src_base/origin/include" "-I$src_base/origin/include"
+  cxx.export.poptions = "-I$out_root" "-I$src_base/origin/include"
   cxx.export.libs = $int_libs
 }
 
@@ -36,9 +36,23 @@ liba{zmq}: cxx.export.poptions += -DZMQ_STATIC
 #
 
 origin/src/{hxx ixx txx cxx}{**} : install = false
-platform/hxx{*} : install = false
 origin/include/file{*} :
 {
   install         = include/
   install.subdirs = false
 }
+
+##########
+# BIG TEMPORARY HACK, DON't DO THIS AT HOME
+platform/hxx{platform} : install = false
+if ($cxx.target.class == 'windows')
+{
+  info "PLATFORM WINDOWS HACK"
+  platform/hxx{platform} : platform/in{platform-win}
+}
+if ($cxx.target.class == 'linux')
+{
+  info "PLATFORM LINUX HACK"
+  platform/hxx{platform} : platform/in{platform-linux}
+}
+
