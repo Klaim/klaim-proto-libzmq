@@ -2,20 +2,12 @@ int_libs = # Interface dependencies.
 imp_libs = # Implementation dependencies.
 #import imp_libs += libhello%lib{hello}
 
-#lib{zmq}: {hxx ixx txx cxx}{**} $imp_libs $int_libs
-lib{zmq}: cxx{*} wtf/cxx{*}
+lib{zmq}: origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
 lib{zmq}: origin/include/hxx{*.h} origin/src/hxx{*.h}   # Extra C headers
-lib{zmq}: hxx{platform}
-
-info "src_root: $src_root"
-info "src_base: $src_base"
-
-info "out_root: $out_root"
-info "out_base: $out_base"
 
 # Build options.
 #
-cxx.poptions =+ "-I$out_root" "-I$out_base" "-I$src_base/origin/src/" "-I$src_base/origin/include/"
+cxx.poptions =+ "-I$out_root" "-I$src_base/origin/src/" "-I$src_base/origin/include/"
 
 if ($cxx.target.class == 'windows')
 {
@@ -51,16 +43,18 @@ origin/include/file{*} :
 
 ##########
 # BIG TEMPORARY HACK, DON't DO THIS AT HOME
-hxx{platform}:
+hxx{platform}@platform/windows/:
 {
   install = false
 }
 
 if ($cc.target.class == 'windows')
 {
-  hxx{platform}: platform/in{platform-win}
+  lib{zmq}: platform/windows/hxx{platform}
+  cxx.poptions += "-I$src_base/platform/windows/"
 }
 if ($cc.target.class == 'linux')
 {
-  hxx{platform}: platform/in{platform-linux}
+  lib{zmq}: platform/linux/hxx{platform}
+  cxx.poptions += "-I$src_base/platform/linux/"
 }
