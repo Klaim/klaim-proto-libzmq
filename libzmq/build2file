@@ -46,6 +46,7 @@ origin/include/file{*} :
 hxx{platform}@platform/windows/:
 {
   install = false
+  dist = false
 }
 
 if ($cc.target.class == 'windows')
