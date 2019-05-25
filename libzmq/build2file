@@ -43,7 +43,7 @@ origin/include/file{*} :
 
 ##########
 # BIG TEMPORARY HACK, DON't DO THIS AT HOME
-hxx{platform}@platform/windows/:
+platform/hxx{**}:
 {
   install = false
   dist = false
