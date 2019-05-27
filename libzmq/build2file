@@ -13,6 +13,11 @@ if ($cxx.target.class == 'windows')
 {
   cxx.libs += ws2_32.lib rpcrt4.lib iphlpapi.lib Advapi32.lib
 }
+else
+{
+  cxx.coptions +="-pthread"
+  lib{zmq}: cxx.export.coptions +="-pthread"
+}
 
 obja{*}: cxx.poptions += -DZMQ_STATIC
 objs{*}: cxx.poptions += -DDLL_EXPORT
@@ -21,8 +26,8 @@ objs{*}: cxx.poptions += -DDLL_EXPORT
 #
 lib{zmq}:
 {
-  cxx.export.poptions = "-I$out_root" "-I$src_base/origin/include"
-  cxx.export.libs = $int_libs
+  cxx.export.poptions += "-I$out_root" "-I$src_base/origin/include"
+  cxx.export.libs += $int_libs
 }
 
 liba{zmq}: cxx.export.poptions += -DZMQ_STATIC
