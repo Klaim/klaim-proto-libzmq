@@ -1,4 +1,4 @@
-project = klaim-proto-libzmq
+project = libzmq
 
 using version
 using config

@@ -1,5 +1,5 @@
 : 1
-name: klaim-proto-libzmq
+name: libzmq
 version: 4.3.1-a.0.z
 summary: Zero-MQ library packaged for prototyping (hacked!): do not use in production!
 license: TODO
