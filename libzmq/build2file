@@ -1,6 +1,6 @@
 int_libs = # Interface dependencies.
 imp_libs = # Implementation dependencies.
-#import imp_libs += libhello%lib{hello}
+import imp_libs += libsodium%lib{sodium}
 
 lib{zmq}: origin/src/{hxx ixx txx cxx}{**} $imp_libs $int_libs
 lib{zmq}: origin/include/hxx{*.h} origin/src/hxx{*.h}   # Extra C headers
