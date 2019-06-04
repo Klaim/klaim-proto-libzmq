@@ -16,7 +16,6 @@ if ($cxx.target.class == 'windows')
 else
 {
   cxx.coptions += -pthread
-  cxx.libs += -lsodium
   lib{zmq}: cxx.export.libs += -lpthread
 }
 
