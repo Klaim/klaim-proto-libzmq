@@ -51,8 +51,9 @@ origin/include/file{*} :
 # BIG TEMPORARY HACK, DON't DO THIS AT HOME
 platform/hxx{**}:
 {
-  install = false
-  dist = false
+  install = include/libzmq
+  install.subdirs = false
+  dist = true
 }
 
 if ($cc.target.class == 'windows')
