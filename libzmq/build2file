@@ -15,7 +15,7 @@ if ($cxx.target.class == 'windows')
 }
 else
 {
-  cxx.coptions += -pthread
+  cxx.coptions += -pthread -fPIC
   lib{zmq}: cxx.export.libs += -lpthread
 }
 
