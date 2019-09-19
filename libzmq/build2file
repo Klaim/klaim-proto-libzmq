@@ -19,14 +19,16 @@ else
   lib{zmq}: cxx.export.libs += -lpthread
 }
 
-obja{*}: cxx.poptions += -DZMQ_STATIC
-objs{*}: cxx.poptions += -DDLL_EXPORT
+obja{*}: cc.poptions += -DZMQ_STATIC
+objs{*}: cc.poptions += -DDLL_EXPORT
 
 # Export options.
 #
 lib{zmq}:
 {
+  c.export.poptions += "-I$out_root" "-I$src_base/origin/include"
   cxx.export.poptions += "-I$out_root" "-I$src_base/origin/include"
+  c.export.libs += $int_libs
   cxx.export.libs += $int_libs
 }
 
