@@ -1,6 +1,6 @@
 : 1
 name: libzmq
-version: 4.3.1-a.0.z
+version: 4.3.1
 summary: Zero-MQ library packaged for prototyping (hacked!): do not use in production!
 license: TODO
 url: https://github.com/zeromq/libzmq/
